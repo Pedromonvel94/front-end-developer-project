@@ -106,4 +106,4 @@ function renderProducts(arr) {
     }
 }
 
-renderProducts(productList)
+renderProducts(productList);
