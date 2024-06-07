@@ -1,31 +1,40 @@
 const menuEmail = document.querySelector(".navbar-email");
-const desktopMenu = document.querySelector(".desktop-menu");
 const menuHamIcon = document.querySelector(".menu");
-const mobileMenu = document.querySelector(".mobile-menu");
 const cartIcon = document.querySelector(".navbar-shopping-cart");
-const aside = document.querySelector(".product-detail");
+const productDetailCloseIcon = document.querySelector(".product-detail-window-close")
+const desktopMenu = document.querySelector(".desktop-menu");
+const mobileMenu = document.querySelector(".mobile-menu");
+const shoppingCartContainer = document.querySelector(".product-detail");
 const cardsContainer = document.querySelector(".cards-container");
+const productDetailContainer = document.querySelector(".product-detail-window")
 
 
 menuEmail.addEventListener("click", toggleDesktopMenu);
 menuHamIcon.addEventListener("click", toggleMobileMenu);
 cartIcon.addEventListener("click", toggleCartAside);
+productDetailCloseIcon.addEventListener("click", closeProductWindowAside)
 
 function toggleDesktopMenu(){
-    const isAsideMenuClosed = aside.classList.contains("inactive");
+    const isAsideMenuClosed = shoppingCartContainer.classList.contains("inactive");
+    const isProductDetalClosed = productDetailContainer.classList.contains("inactive");
 
     if(!isAsideMenuClosed) {
-        aside.classList.add("inactive");
+        shoppingCartContainer.classList.add("inactive");
+    } else if (!isProductDetalClosed) {
+        productDetailContainer.classList.add("inactive");
     }
 
     desktopMenu.classList.toggle("inactive");
 }
 
 function toggleMobileMenu(){
-    const isAsideMenuClosed = aside.classList.contains("inactive");
+    const isAsideMenuClosed = shoppingCartContainer.classList.contains("inactive");
+    const isProductDetalClosed = productDetailContainer.classList.contains("inactive");
 
     if(!isAsideMenuClosed) {
-        aside.classList.add("inactive");
+        shoppingCartContainer.classList.add("inactive");
+    } else if (!isProductDetalClosed) {
+        productDetailContainer.classList.add("inactive");
     }
 
     mobileMenu.classList.toggle("inactive");
@@ -34,14 +43,28 @@ function toggleMobileMenu(){
 function toggleCartAside() {
     const isMobileMenuClosed = mobileMenu.classList.contains("inactive");
     const isDesktopMenuClosed = desktopMenu.classList.contains("inactive");
+    const isProductDetalClosed = productDetailContainer.classList.contains("inactive");
 
     if(!isMobileMenuClosed) {
         mobileMenu.classList.add("inactive");
     } else if (!isDesktopMenuClosed) {
         desktopMenu.classList.add("inactive");
+    } else if (!isProductDetalClosed) {
+        productDetailContainer.classList.add("inactive");
     }
 
-    aside.classList.toggle("inactive");
+    shoppingCartContainer.classList.toggle("inactive");
+}
+
+function openProductWindowAside() {
+    shoppingCartContainer.classList.add("inactive")
+    desktopMenu.classList.add("inactive");
+    mobileMenu.classList.add("inactive");
+    productDetailContainer.classList.remove("inactive");
+}
+
+function closeProductWindowAside() {
+    productDetailContainer.classList.add("inactive");
 }
 
 
@@ -68,6 +91,11 @@ productList.push({
     price: 150000,
     image: "https://images.pexels.com/photos/255934/pexels-photo-255934.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
 });
+productList.push({
+    name: "Mascarilla Repolarizadora",
+    price: 75000,
+    image: "https://luegopagocdn.azureedge.net/temporary/119593-en-us-1800px-01%20(2).jpg"
+});
 
 function renderProducts(arr) {
     for (product of arr) {
@@ -76,6 +104,7 @@ function renderProducts(arr) {
     
         const productImg = document.createElement('img');
         productImg.setAttribute('src', product.image);
+        productImg.addEventListener('click', openProductWindowAside);
     
         const productInfo = document.createElement('div');
         productInfo.classList.add('product-info');
